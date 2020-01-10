@@ -4,6 +4,7 @@ using UnityEngine;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
+
 public class PlayerHandMover : MonoBehaviour
 {
     Rigidbody rig;
@@ -22,11 +23,15 @@ public class PlayerHandMover : MonoBehaviour
     void Update()
     {
         BodyMove();
+        if (Input.GetKey(KeyCode.JoystickButton7)) {
+            print("grabbing");
+            isLatched = true;
+        } else isLatched = false;
     }
     
     void BodyMove() {
-        //if (isLatched) {
+        if (isLatched) {
             bodyRig.AddForce(-rig.velocity / 2, ForceMode.VelocityChange);
-        //}
+        }
     }
 }
