@@ -11,6 +11,8 @@ public class PlayerHandMover : MonoBehaviour
     ConfigurableJoint joint;
     bool isLatched = false;
     public Rigidbody bodyRig;
+    public SteamVR_Action_Boolean grabPinch;
+    public SteamVR_Input_Sources inputSource = SteamVR_Input_Sources.Any;
     void Start()
     {
         rig = GetComponent<Rigidbody>();
@@ -22,16 +24,13 @@ public class PlayerHandMover : MonoBehaviour
     
     void Update()
     {
-        BodyMove();
-        if (Input.GetKey(KeyCode.JoystickButton7)) {
-            print("grabbing");
-            isLatched = true;
-        } else isLatched = false;
+        bool grab = grabPinch.GetState(inputSource);
+        if (grab) {
+            BodyMove();
+        }
     }
     
     void BodyMove() {
-        if (isLatched) {
-            bodyRig.AddForce(-rig.velocity / 2, ForceMode.VelocityChange);
-        }
+        bodyRig.AddForce(-rig.velocity / 2, ForceMode.VelocityChange);
     }
 }
