@@ -18,6 +18,15 @@ public class PlayerHandMover : MonoBehaviour
     public float speedMultiplier = 0.5f;
     Quaternion lastRotation;
     Quaternion rotationChange;
+    float rotationX;
+    float rotationY;
+    float rotationZ;
+    float rotationW;
+    float newRotationX;
+    float newRotationY;
+    float newRotationZ;
+    float newRotationW;
+    public float rotationMultiplier = 0.5f;
 
     void Start()
     {
@@ -32,16 +41,42 @@ public class PlayerHandMover : MonoBehaviour
     
     void Update()
     {
+        GetLastRotationValues();
+        lastRotation = transform.rotation;
+        GetNewRotationValues();
+        GetRotationChange();
+        rotationChange = new Quaternion(rotationX, rotationY, rotationZ, rotationW);
         positionChange = transform.position - lastPosition;
         lastPosition = transform.position;
         bool grab = grabPinch.GetState(inputSource);
+        BodyMove(grab);
+    }
+    
+    void BodyMove(bool grab) {
         if (grab) {
             print("grabbed");
             bodyRig.AddForce(-positionChange * speedMultiplier, ForceMode.VelocityChange);
+            bodyRig.MoveRotation(rotationChange);
         }
     }
-    
-    void BodyMove() {
-        
+
+    void GetRotationChange() {
+        rotationX = (newRotationX - rotationX) * rotationMultiplier;
+        rotationY = (newRotationY - rotationY) * rotationMultiplier;
+        rotationZ = (newRotationZ - rotationZ) * rotationMultiplier;
+        rotationW = (newRotationW - rotationW) * rotationMultiplier;
+    }
+
+    void GetLastRotationValues() {
+        rotationX = lastRotation.x;
+        rotationY = lastRotation.y;
+        rotationZ = lastRotation.z;
+        rotationW = lastRotation.w;
+    }
+    void GetNewRotationValues() {
+        newRotationX = lastRotation.x;
+        newRotationY = lastRotation.y;
+        newRotationZ = lastRotation.z;
+        newRotationW = lastRotation.w;
     }
 }
