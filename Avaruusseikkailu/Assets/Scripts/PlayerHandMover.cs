@@ -13,8 +13,16 @@ public class PlayerHandMover : MonoBehaviour
     public Rigidbody bodyRig;
     public SteamVR_Action_Boolean grabPinch;
     public SteamVR_Input_Sources inputSource = SteamVR_Input_Sources.Any;
+    Vector3 lastPosition;
+    Vector3 positionChange;
+    public float speedMultiplier = 0.5f;
+    Quaternion lastRotation;
+    Quaternion rotationChange;
+
     void Start()
     {
+        lastPosition = transform.position;
+        lastRotation = transform.rotation;
         rig = GetComponent<Rigidbody>();
         if (GetComponent<ConfigurableJoint>() != null) {
             joint = GetComponent<ConfigurableJoint>();
@@ -24,13 +32,16 @@ public class PlayerHandMover : MonoBehaviour
     
     void Update()
     {
+        positionChange = transform.position - lastPosition;
+        lastPosition = transform.position;
         bool grab = grabPinch.GetState(inputSource);
         if (grab) {
-            BodyMove();
+            print("grabbed");
+            bodyRig.AddForce(-positionChange * speedMultiplier, ForceMode.VelocityChange);
         }
     }
     
     void BodyMove() {
-        bodyRig.AddForce(-rig.velocity / 2, ForceMode.VelocityChange);
+        
     }
 }
