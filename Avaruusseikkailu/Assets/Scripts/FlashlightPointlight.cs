@@ -10,7 +10,6 @@ public class FlashlightPointlight : MonoBehaviour
     public float maxDistance = 10f;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
