@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlashlightPointlight : MonoBehaviour
 {
-    public GameObject lightSource;
+    public Light lightSource;
     RaycastHit hit;
     public LayerMask hitLayers;
     public float maxDistance = 10f;
@@ -18,7 +18,9 @@ public class FlashlightPointlight : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, hitLayers)) {
             Vector3 location = hit.point;
-            lightSource.transform.position = location;
+            Collider hitObject = hit.collider;
+            lightSource.transform.position = location - transform.position * (Vector3.Distance(location, transform.position) - 1);
+            lightSource.intensity = lightSource.intensity * (maxDistance / Vector3.Distance(location, transform.position));
         }
     }
 }
