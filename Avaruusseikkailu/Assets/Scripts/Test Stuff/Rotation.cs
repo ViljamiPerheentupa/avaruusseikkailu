@@ -11,8 +11,13 @@ public class Rotation : MonoBehaviour
     public float rotationSpeed = 10f;
     float inertiaTimer = 0;
     Vector3 lastInertia;
+    Vector3 inertiaChange;
+    bool letGo = false;
+    bool doOnce = true;
+    public float speedMultiplier = 0.5f;
     void Start()
     {
+        lastInertia = objectToMove.position;
         attachPoint.position = objectToMove.position;
         rig = GetComponent<Rigidbody>();
         objRig = objectToMove.GetComponent<Rigidbody>();
@@ -22,11 +27,26 @@ public class Rotation : MonoBehaviour
         float rotationx = Input.GetAxis("Horizontal");
         float rotationy = Input.GetAxis("Vertical");
         rig.rotation *=  Quaternion.Euler(0, rotationx * rotationSpeed, -rotationy * rotationSpeed);
+        if (Input.GetKeyDown(KeyCode.F)) {
+            if (!letGo) {
+                letGo = true;
+            } else {
+                letGo = false;
+                doOnce = true;
+            }
+        }
+        if (letGo && doOnce) {
+            objRig.AddForce(lastInertia * speedMultiplier, ForceMode.VelocityChange);
+            doOnce = false;
+        }
     }
 
     void FixedUpdate()
     {
-        if (HasMoved()) {
+        inertiaChange = objectToMove.position - lastInertia;
+        lastInertia = objectToMove.position;
+        print(inertiaChange.x + ", " + inertiaChange.y + ", " + inertiaChange.z);
+        if (HasMoved() && !letGo) {
             if (inertiaTimer < 1) {
                 inertiaTimer += Time.fixedDeltaTime / 2;
             }
