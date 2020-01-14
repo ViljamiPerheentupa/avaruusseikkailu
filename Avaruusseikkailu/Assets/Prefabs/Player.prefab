@@ -1819,9 +1819,9 @@ MonoBehaviour:
   speedMultiplier: 1
   rotationMultiplier: 0.5
   attachPoint: {fileID: 883468681803955983}
-  inertiaMultiplier: 0.2
-  inertiaTimerMultiplier: 0.33
-  rotationDeadzone: 1
+  inertiaMultiplier: 0.07
+  inertiaTimerMultiplier: 0.15
+  rotationDeadzone: 0.6
 --- !u!1 &7374651446215148028
 GameObject:
   m_ObjectHideFlags: 0

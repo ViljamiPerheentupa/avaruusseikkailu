@@ -21,6 +21,7 @@ public class PlayerHandMover : MonoBehaviour
     public float rotationMultiplier = 0.5f;
     Vector3 anchorPoint;
     bool anchorOnce = true;
+    public bool canGrab = false;
 
     //Rotation
     public Transform attachPoint;
@@ -40,32 +41,36 @@ public class PlayerHandMover : MonoBehaviour
     
     void Update()
     {
+
         bool grab = grabPinch.GetState(inputSource);
         rotationChange = Quaternion.Inverse(lastRotation) * transform.localRotation;
         lastRotation = transform.localRotation;
         positionChange = transform.position - lastPosition;
         lastPosition = transform.position;
-        //if (grab) {
-        //    bodyRig.velocity = Vector3.zero;
-        //}
-        BodyMove(grab);
-        BodyRotate(grab);
+        if (canGrab) {
+            AnchorHand(grab);
+            BodyMove(grab);
+            BodyRotate(grab);
+        }
     }
 
-    void AnchorHand() {
-        if (anchorOnce) {
-            anchorPoint = rig.position;
-            anchorOnce = false;
-        }
-        rig.position = anchorPoint;
-
+    void AnchorHand(bool grab) {
+        if (grab) {
+            if (anchorOnce) {
+                anchorPoint = rig.position;
+                anchorOnce = false;
+            }
+            rig.position = anchorPoint;
+            return;
+        } else return;
     }
     
     void BodyMove(bool grab) {
         if (grab) {
             bodyRig.AddForce(-positionChange * speedMultiplier, ForceMode.VelocityChange);
+            return;
             //bodyRig.rotation = bodyRig.rotation * rotationChange;
-        }
+        } else return;
     }
 
     void BodyRotate(bool grab) {
@@ -82,12 +87,14 @@ public class PlayerHandMover : MonoBehaviour
                     inertiaTimer = 1;
                 }
                 bodyRig.position += (attachPoint.position - bodyRig.transform.position) * inertiaTimer * inertiaMultiplier;
+                return;
             }
         }
         if (!grab) {
             inertiaTimer = 0;
             doOnce = true;
             anchorOnce = true;
+            return;
         }
     }
 
