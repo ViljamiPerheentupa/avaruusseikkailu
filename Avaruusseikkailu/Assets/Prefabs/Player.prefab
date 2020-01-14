@@ -1653,6 +1653,7 @@ GameObject:
   - component: {fileID: 7479639010196078320}
   - component: {fileID: 7374651445868593641}
   - component: {fileID: 7374651445868593637}
+  - component: {fileID: 3505247911798571974}
   m_Layer: 9
   m_Name: RightHand
   m_TagString: Untagged
@@ -1693,7 +1694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   otherHand: {fileID: 7374651445879977508}
   handType: 2
-  trackedObject: {fileID: 0}
+  trackedObject: {fileID: 7479638966867524600}
   grabPinchAction:
     actionPath: /actions/default/in/GrabPinch
     needsReinit: 1
@@ -1818,10 +1819,30 @@ MonoBehaviour:
   inputSource: 2
   speedMultiplier: 1
   rotationMultiplier: 0.5
+  canGrab: 0
   attachPoint: {fileID: 883468681803955983}
   inertiaMultiplier: 0.07
   inertiaTimerMultiplier: 0.15
   rotationDeadzone: 0.6
+  rotateParent: {fileID: 0}
+  normalParent: {fileID: 0}
+--- !u!114 &3505247911798571974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374651445868753592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e7548b8ce5b334ca8e80c71c3b6c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverpoint: {fileID: 7374651445868942684}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  maxDistance: 0.3
 --- !u!1 &7374651446215148028
 GameObject:
   m_ObjectHideFlags: 0

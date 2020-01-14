@@ -11,6 +11,7 @@ public class HandWallSensor : MonoBehaviour
     {
         if (Physics.CheckSphere(hoverpoint.position, maxDistance, wallLayer)){
             GetComponent<PlayerHandMover>().canGrab = true;
+            print("wall");
         } else GetComponent<PlayerHandMover>().canGrab = false;
     }
 }
