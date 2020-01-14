@@ -51,47 +51,35 @@ public class Door : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O) && isClosed) {
                 isOpening = true;
             }
-            if (Input.GetKeyDown(KeyCode.O) && isOpened) {
+            if (Input.GetKeyDown(KeyCode.P) && isOpened) {
                 isClosing = true;
             }
         }
         if (isOpening) {
             OpenDoor();
-            if (testing) {
-                //print("opening");
-            }
         }
         if (isClosing) {
             CloseDoor();
-            if (testing) {
-                //print("closing");
-            }
         }
         if (Vector3.Distance(leftSide.transform.position, l_openPos) < 0.09f && Vector3.Distance(rightSide.transform.position, r_openPos) < 0.09f) {
             isOpening = false;
             isOpened = true;
-            if (testing) {
-                //print("opened");
-            }
         }
         if (Vector3.Distance(leftSide.transform.position, l_closedPos) <= 0 && Vector3.Distance(rightSide.transform.position, r_closedPos) <= 0) {
             isClosing = false;
             isClosed = true;
-            if (testing) {
-                //print("closed");
-            }
         }
     }
 
     public void OpenDoor() {
         leftSide.transform.position += (l_openPos - leftSide.transform.position) * Time.deltaTime * openSpeed;
-        print((l_openPos - leftSide.transform.position).x);
         rightSide.transform.position += (r_openPos - rightSide.transform.position) * Time.deltaTime * openSpeed;
     }
 
     public void CloseDoor() {
-        leftSide.transform.position += (l_closedPos - leftSide.transform.position) * Time.deltaTime * closeSpeed;
-        print((l_closedPos - leftSide.transform.position).x);
-        rightSide.transform.position += (r_closedPos - rightSide.transform.position) * Time.deltaTime * closeSpeed;
+        leftSide.transform.position = Vector3.MoveTowards(leftSide.transform.position, l_closedPos, Time.deltaTime * closeSpeed);
+        rightSide.transform.position = Vector3.MoveTowards(rightSide.transform.position, r_closedPos, Time.deltaTime * closeSpeed);
+        //leftSide.transform.position += (l_closedPos - leftSide.transform.position) * Time.deltaTime * closeSpeed;
+        //rightSide.transform.position += (r_closedPos - rightSide.transform.position) * Time.deltaTime * closeSpeed;
     }
 }
