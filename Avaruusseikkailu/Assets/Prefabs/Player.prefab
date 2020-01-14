@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4511586520509339072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883468681803955983}
+  m_Layer: 9
+  m_Name: RightHAttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &883468681803955983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511586520509339072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7374651445868947814}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6087440052190274847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1645,6 +1675,7 @@ Transform:
   - {fileID: 7374651445868952526}
   - {fileID: 7374651445868891844}
   - {fileID: 7374651445868974296}
+  - {fileID: 883468681803955983}
   m_Father: {fileID: 7374651445868891034}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1785,8 +1816,12 @@ MonoBehaviour:
     actionPath: /actions/default/in/GrabPinch
     needsReinit: 0
   inputSource: 2
-  speedMultiplier: 0.5
+  speedMultiplier: 1
   rotationMultiplier: 0.5
+  attachPoint: {fileID: 883468681803955983}
+  inertiaMultiplier: 0.2
+  inertiaTimerMultiplier: 0.33
+  rotationDeadzone: 1
 --- !u!1 &7374651446215148028
 GameObject:
   m_ObjectHideFlags: 0

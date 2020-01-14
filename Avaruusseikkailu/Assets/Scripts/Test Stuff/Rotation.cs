@@ -21,6 +21,7 @@ public class Rotation : MonoBehaviour
     public float inertiaTimerMultiplier = 0.33f;
     public float rotationDeadzone = 1f;
     public float rotationMultiplier = 0.5f;
+
     void Start()
     {
         handDistance = Vector3.Distance(transform.position, objectToMove.position);
