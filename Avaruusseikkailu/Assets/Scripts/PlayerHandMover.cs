@@ -30,6 +30,8 @@ public class PlayerHandMover : MonoBehaviour
     public float rotationDeadzone = 1f;
     float inertiaTimer = 0;
     bool doOnce = true;
+    public Transform rotateParent;
+    public Transform normalParent;
 
     void Start()
     {
@@ -52,22 +54,26 @@ public class PlayerHandMover : MonoBehaviour
             BodyMove(grab);
             BodyRotate(grab);
         }
+        if (!grab) {
+            anchorOnce = true;
+        }
     }
 
     void AnchorHand(bool grab) {
         if (grab) {
             if (anchorOnce) {
-                anchorPoint = rig.position;
+
                 anchorOnce = false;
             }
-            rig.position = anchorPoint;
+
             return;
         } else return;
     }
     
     void BodyMove(bool grab) {
         if (grab) {
-            bodyRig.AddForce(-positionChange * speedMultiplier, ForceMode.VelocityChange);
+            Vector3 velocityChange = rig.velocity - positionChange;
+            bodyRig.AddForce(velocityChange * speedMultiplier, ForceMode.VelocityChange);
             return;
             //bodyRig.rotation = bodyRig.rotation * rotationChange;
         } else return;
