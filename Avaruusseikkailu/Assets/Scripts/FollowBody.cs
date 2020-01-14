@@ -8,6 +8,7 @@ public class FollowBody : MonoBehaviour
     public bool relative = false;
     public bool rotationToo = true;
     Vector3 offset;
+    bool disabled = false;
 
     private void Start() {
         offset = transform.position - objectToFollow.position;
@@ -15,12 +16,14 @@ public class FollowBody : MonoBehaviour
 
     void Update()
     {
-        if (relative) {
-            transform.position = objectToFollow.position + offset;
-        } else
-        transform.position = objectToFollow.position;
-        if (rotationToo) {
-            transform.rotation = objectToFollow.rotation;
+        if (!disabled) {
+            if (relative) {
+                transform.position = objectToFollow.position + offset;
+            } else
+                transform.position = objectToFollow.position;
+            if (rotationToo) {
+                transform.rotation = objectToFollow.rotation;
+            }
         }
     }
 }
