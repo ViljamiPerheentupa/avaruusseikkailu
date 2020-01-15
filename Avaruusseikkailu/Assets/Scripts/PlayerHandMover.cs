@@ -21,6 +21,12 @@ public class PlayerHandMover : MonoBehaviour
     public float rotationMultiplier = 0.5f;
     bool anchorOnce = true;
     public bool canGrab = false;
+    float stopXMove = 0;
+    float stopYMove = 0;
+    float stopZMove = 0;
+    float stopYRot = 0;
+    float stopXRot = 0;
+    float stopZRot = 0;
 
     //Rotation
     public Transform attachPoint;
@@ -48,31 +54,72 @@ public class PlayerHandMover : MonoBehaviour
         lastPosition = transform.position;
         if (canGrab) {
             AnchorHand(grab);
-            BodyMove(grab);
             BodyRotate(grab);
+            if (!HasRotated()) {
+                BodyMove(grab);
+            }
         }
         if (!grab) {
+            inertiaTimer = 0;
+            doOnce = true;
             anchorOnce = true;
         }
+    }
+
+    void StopMovement() {
+        if (bodyRig.velocity.x != 0) {
+            if (bodyRig.velocity.x < 0) {
+                stopXMove += Time.deltaTime;
+            } else stopXMove -= Time.deltaTime;
+        }
+        if (bodyRig.velocity.y != 0) {
+            if (bodyRig.velocity.y < 0) {
+                stopYMove += Time.deltaTime;
+            } else stopYMove -= Time.deltaTime;
+        }
+        if (bodyRig.velocity.z != 0) {
+            if (bodyRig.velocity.z < 0) {
+                stopZMove += Time.deltaTime;
+            } else stopZMove -= Time.deltaTime;
+        }
+        if (bodyRig.angularVelocity.x != 0) {
+            if (bodyRig.angularVelocity.x < 0) {
+                stopXRot += Time.deltaTime;
+            } else stopXRot -= Time.deltaTime;
+        }
+        if (bodyRig.angularVelocity.y != 0) {
+            if (bodyRig.angularVelocity.y < 0) {
+                stopYRot += Time.deltaTime;
+            } else stopYRot -= Time.deltaTime;
+        }
+        if (bodyRig.angularVelocity.z < 0) {
+            if (bodyRig.angularVelocity.z < 0) {
+                stopZRot += Time.deltaTime;
+            } else stopZRot -= Time.deltaTime;
+        }
+        bodyRig.velocity += new Vector3(stopXMove, stopYMove, stopZMove);
+        bodyRig.angularVelocity += new Vector3(stopXRot, stopYRot, stopZRot);
     }
 
     void AnchorHand(bool grab) {
         if (grab) {
             if (anchorOnce) {
-                anchorPoint.position = transform.position;
-                bodyRig.velocity = Vector3.zero;
-                bodyRig.angularVelocity = Vector3.zero;
+                if (bodyRig.velocity != Vector3.zero && bodyRig.angularVelocity != Vector3.zero) {
+                    StopMovement();
+                }
+                if (Vector3.Distance(bodyRig.position, anchorPoint.position) > Vector3.Distance(anchorPoint.position, attachPoint.position)) {
+                    bodyRig.velocity = Vector3.zero;
+                    bodyRig.angularVelocity = Vector3.zero;
+                }
                 anchorOnce = false;
             }
-            anchorPoint.localRotation = transform.localRotation;
             return;
         } else return;
     }
     
     void BodyMove(bool grab) {
         if (grab) {
-            Vector3 velocityChange = rig.velocity - positionChange;
-            bodyRig.AddForce(velocityChange * speedMultiplier, ForceMode.VelocityChange);
+            bodyRig.AddForce(-positionChange * speedMultiplier, ForceMode.VelocityChange);
             //bodyRig.rotation = bodyRig.rotation * rotationChange;
             return;
         } else return;
@@ -81,9 +128,13 @@ public class PlayerHandMover : MonoBehaviour
     void BodyRotate(bool grab) {
         if (grab) {
             if (doOnce) {
-                attachPoint.position = bodyRig.position;
+                anchorPoint.position = transform.position;
+                attachPoint.position = bodyRig.transform.position;
+                rig.position = anchorPoint.position;
                 doOnce = false;
             }
+            rig.position = anchorPoint.position;
+            anchorPoint.rotation = anchorPoint.rotation * rotationChange;
             if (HasRotated()) {
                 if (inertiaTimer < 1) {
                     inertiaTimer += Time.deltaTime * inertiaTimerMultiplier;
@@ -94,12 +145,6 @@ public class PlayerHandMover : MonoBehaviour
                 bodyRig.position += (attachPoint.position - bodyRig.transform.position) * inertiaTimer * inertiaMultiplier;
                 return;
             }
-        }
-        if (!grab) {
-            inertiaTimer = 0;
-            doOnce = true;
-            anchorOnce = true;
-            return;
         }
     }
 
