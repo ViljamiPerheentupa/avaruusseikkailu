@@ -19,7 +19,6 @@ public class PlayerHandMover : MonoBehaviour
     Quaternion lastRotation;
     Quaternion rotationChange;
     public float rotationMultiplier = 0.5f;
-    Vector3 anchorPoint;
     bool anchorOnce = true;
     public bool canGrab = false;
 
@@ -30,8 +29,7 @@ public class PlayerHandMover : MonoBehaviour
     public float rotationDeadzone = 1f;
     float inertiaTimer = 0;
     bool doOnce = true;
-    public Transform rotateParent;
-    public Transform normalParent;
+    public Transform anchorPoint;
 
     void Start()
     {
@@ -43,7 +41,6 @@ public class PlayerHandMover : MonoBehaviour
     
     void Update()
     {
-
         bool grab = grabPinch.GetState(inputSource);
         rotationChange = Quaternion.Inverse(lastRotation) * transform.localRotation;
         lastRotation = transform.localRotation;
@@ -62,10 +59,12 @@ public class PlayerHandMover : MonoBehaviour
     void AnchorHand(bool grab) {
         if (grab) {
             if (anchorOnce) {
-
+                anchorPoint.position = transform.position;
+                bodyRig.velocity = Vector3.zero;
+                bodyRig.angularVelocity = Vector3.zero;
                 anchorOnce = false;
             }
-
+            anchorPoint.localRotation = transform.localRotation;
             return;
         } else return;
     }
@@ -74,8 +73,8 @@ public class PlayerHandMover : MonoBehaviour
         if (grab) {
             Vector3 velocityChange = rig.velocity - positionChange;
             bodyRig.AddForce(velocityChange * speedMultiplier, ForceMode.VelocityChange);
-            return;
             //bodyRig.rotation = bodyRig.rotation * rotationChange;
+            return;
         } else return;
     }
 
