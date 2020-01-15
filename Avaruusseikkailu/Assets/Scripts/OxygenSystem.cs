@@ -39,12 +39,12 @@ public class OxygenSystem : MonoBehaviour, IOxygen
             if (minutesLeft <= 0 && secondsLeft <= 0) {
                 ranOutOfAir = true;
             }
-            if (secondsLeft < 10) {
-                print(minutesLeft + ":" + "0" + secondsLeft);
-            } else
-                print(minutesLeft + ":" + secondsLeft);
             if (testing) {
                 TestAddOxygen();
+                if (secondsLeft < 10) {
+                    print(minutesLeft + ":" + "0" + secondsLeft);
+                } else
+                    print(minutesLeft + ":" + secondsLeft);
             }
         }
     }
@@ -57,6 +57,7 @@ public class OxygenSystem : MonoBehaviour, IOxygen
             if (minutesLeft >= maxOxygenMinutes) {
                 minutesLeft = maxOxygenMinutes;
                 secondsLeft = 0;
+                timer = 0;
             }
         }
     }
