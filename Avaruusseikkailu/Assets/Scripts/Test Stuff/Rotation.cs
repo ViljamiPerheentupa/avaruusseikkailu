@@ -61,7 +61,8 @@ public class Rotation : MonoBehaviour
             if (inertiaTimer >= 1) {
                 inertiaTimer = 1;
             }
-            objRig.position += (attachPoint.position - objectToMove.position) * inertiaTimer * inertiaMultiplier;
+            //objRig.position += (attachPoint.position - objectToMove.position) * inertiaTimer * inertiaMultiplier;
+            objRig.position = Vector3.Slerp(objRig.position, attachPoint.position, inertiaTimer * inertiaMultiplier);
         }
         if (Vector3.Distance(attachPoint.position, objectToMove.position) < rotationDeadzone) {
             if (inertiaTimer > 0) {
