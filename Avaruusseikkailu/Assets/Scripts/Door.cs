@@ -71,12 +71,19 @@ public class Door : MonoBehaviour
         }
     }
 
-    public void OpenDoor() {
+    public void DoorOpen() {
+        isOpening = true;
+    }
+    void OpenDoor() {
         leftSide.transform.position += (l_openPos - leftSide.transform.position) * Time.deltaTime * openSpeed;
         rightSide.transform.position += (r_openPos - rightSide.transform.position) * Time.deltaTime * openSpeed;
     }
 
-    public void CloseDoor() {
+    public void DoorClose() {
+        isClosing = true;
+    }
+
+    void CloseDoor() {
         leftSide.transform.position = Vector3.MoveTowards(leftSide.transform.position, l_closedPos, Time.deltaTime * closeSpeed);
         rightSide.transform.position = Vector3.MoveTowards(rightSide.transform.position, r_closedPos, Time.deltaTime * closeSpeed);
         //leftSide.transform.position += (l_closedPos - leftSide.transform.position) * Time.deltaTime * closeSpeed;
