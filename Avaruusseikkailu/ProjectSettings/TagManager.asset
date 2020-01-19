@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Grabbable
+  - projectile
+  - FxTemporaire
+  - AirlockDoor
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - Props
   - LightProps
   - DodgeLight
-  - 
+  - Triggers
   - 
   - 
   - 
