@@ -29,7 +29,9 @@ public class VaccuumPull : MonoBehaviour
     public void Pull() {
         Collider[] objects = Physics.OverlapBox(transform.position, size / 2, transform.rotation, mask);
         foreach (Collider obj in objects) {
-            obj.GetComponent<Rigidbody>().AddForce((pullPoint.position - obj.transform.position) * speed, forceMode);
+            if (obj.GetComponent<Rigidbody>() != null) {
+                obj.GetComponent<Rigidbody>().AddForce((pullPoint.position - obj.transform.position) * speed, forceMode);
+            }
         }
     }
 }

@@ -18,9 +18,10 @@ public class UnityTrigger : MonoBehaviour
                 print("triggered");
             }
         }
-        if (other.gameObject.layer == mask) {
+        if (other.gameObject.layer == mask.value) {
             onTrigger.Invoke();
             print("triggered");
         }
+        onTrigger.Invoke();
     }
 }

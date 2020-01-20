@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PropInitialMover : MonoBehaviour
 {
+    public ForceMode forceMode;
     public Vector3 direction;
     public Vector3 rotation;
     public float speed;
@@ -27,8 +28,8 @@ public class PropInitialMover : MonoBehaviour
             float dy = Random.Range(-randomizedDirectionMax.y, randomizedDirectionMax.y);
             float dz = Random.Range(-randomizedDirectionMax.z, randomizedDirectionMax.z);
             float rspeed = Random.Range(0, randomizedSpeedMax);
-            rig.AddForce(new Vector3(dx, dy, dz) * rspeed, ForceMode.Impulse);
-        } else rig.AddForce(direction * speed, ForceMode.Impulse);
+            rig.AddForce(new Vector3(dx, dy, dz) * rspeed, forceMode);
+        } else rig.AddForce(direction * speed, forceMode);
     }
 
 }

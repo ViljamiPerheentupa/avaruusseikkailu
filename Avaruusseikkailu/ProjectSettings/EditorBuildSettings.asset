@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PhysicsLab.unity
     guid: 11a66bdb38b68e942ab6012619a6871a
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 3adde4a6203f386458d96ee80e56b668
   m_configObjects: {}

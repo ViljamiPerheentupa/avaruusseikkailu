@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class Keypad : MonoBehaviour
+public class Keypad : MonoBehaviour, IKeypad
 {
     public bool testing;
     List<int> inputs = new List<int>();
-    int pass1;
-    int pass2;
-    int pass3;
-    int pass4;
+    public int pass1;
+    public int pass2;
+    public int pass3;
+    public int pass4;
     public Text inputText;
     bool stopTakingInput = false;
     int correctInputs = 0;
@@ -28,7 +28,9 @@ public class Keypad : MonoBehaviour
         pass2 = Random.Range(0, 10);
         pass3 = Random.Range(0, 10);
         pass4 = Random.Range(0, 10);
-        print(pass1 + "" + pass2 + "" + pass3 + "" + pass4);
+        if (testing) {
+            print(pass1 + "" + pass2 + "" + pass3 + "" + pass4);
+        }
     }
 
 
@@ -114,44 +116,50 @@ public class Keypad : MonoBehaviour
 
     void GetInput() {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            inputs.Add(1);
+            AddKey(1);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
-            inputs.Add(2);
+            AddKey(2);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            inputs.Add(3);
+            AddKey(3);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4)) {
-            inputs.Add(4);
+            AddKey(4);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha5)) {
-            inputs.Add(5);
+            AddKey(5);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha6)) {
-            inputs.Add(6);
+            AddKey(6);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha7)) {
-            inputs.Add(7);
+            AddKey(7);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha8)) {
-            inputs.Add(8);
+            AddKey(8);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
-            inputs.Add(9);
+            AddKey(9);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Alpha0)) {
-            inputs.Add(0);
+            AddKey(0);
             return;
         }
+    }
+
+    public void AddKey(int num) {
+        inputs.Add(num);
+        int rng = Random.Range(1, 4);
+        AudioFW.Play("button" + rng);
     }
 }
